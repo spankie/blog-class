@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up | Facebook</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+
+<nav>
+    <div class="nav-wrapper" style="background-color: blueviolet">
+        <div class="container">
+            <a th:href="@{/}" class="brand-logo">Aba FaceBook</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a th:href="@{/auth/login}" style="font-size: large">Login</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 7rem">
+    <h3>Sign Up</h3>
+    <div th:if="${invalid != null}">
+        <p style="color: tomato" th:text="${invalid}"></p>
+    </div>
+    <hr />
+    <div class="row">
+        <form class="col s12" style="margin-top: 2rem" method="post" th:action="@{/auth/signup}" th:object="${user}">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input placeholder="First Name" id="firstname" type="text" class="validate" th:field="*{firstName}" required>
+                    <label for="firstname">First Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input placeholder="Last Name" id="lastname" type="text" class="validate" th:field="*{lastName}" required>
+                    <label for="lastname">Last Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" type="email" class="validate" th:field="*{email}" required>
+                    <label for="email">Email</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" type="password" class="validate" th:field="*{password}" required>
+                    <label for="password">Password</label>
+                </div>
+            </div>
+
+            <p>
+                Gender:
+                <label>
+                    <input class="with-gap" name="gender" type="radio" id="male" value="M" th:field="*{gender}"/>
+                    <span>Male</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="gender" type="radio" id="female" value="F" th:field="*{gender}"/>
+                    <span>Female</span>
+                </label>
+            </p>
+
+            <div class="row">
+                <div class="input-field col s3">
+                    <b>Date of Birth:</b> <input type="date" th:field="*{birthDay}" id="birthDay" required></div>
+            </div>
+
+            <button class="btn waves-effect waves-light blue-violet accent-3" type="submit" name="action">Sign Up
+                <i class="material-icons right"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post | Facebook</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper" style="background-color: blueviolet">
+        <div class="container">
+            <a th:href="@{/}" class="brand-logo">Aba Facebook</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a th:href="@{/}" style="font-size: large">Home</a></li>
+                <li><a th:href="@{/profile}" style="font-size: large">Profile</a></li>
+                <li><a th:href="@{/auth/logout}" style="font-size: large">Logout</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col s12 m12">
+        <div class="card">
+            <div class="card-content dark-text">
+                <p><b th:text="${post.user.firstName + ' ' + post.user.lastName}"></b></p>
+                <br>
+                <p><b th:text="${post.postContent}"></b></p>
+                <br>
+            </div>
+            <div class="card-action">
+                <p th:text="${post.getComments().size()} + ' Comments ' + ${post.getLikes().size()} + ' Likes'"></p>
+                <form method="post" th:object="${newlike}" th:action="@{/like/post/{id}(id=${post.getPostId()})}">
+                    <button class="btn waves-effect blue-violet accent-3" type="submit" name="action">Like
+                        <i class="material-icons right"></i>
+                    </button>
+                </form>
+                <a th:href="@{/post/{id}(id=${post.getPostId()})}">View post</a>
+            </div>
+
+            <div th:each="comment : ${comments}">
+                <div class="card-content dark-text">
+                    <p><b th:text="${comment.user.firstName + ' ' + comment.user.lastName}"></b></p>
+                    <p th:text="${comment.commentText}"></p>
+                    <p></p>
+                    <br>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col s1">
+
+                </div>
+                <form class="col s10" method="post" th:object="${newcomment}" th:action="@{/comment/post/new/{id}(id=${post.getPostId()})}">
+                    <div class="row">
+                        <div class="input-field col s8">
+                            <textarea id="icon_prefix" placeholder="Comment..." class="materialize-textarea" th:field="*{commentText}"></textarea>
+                            <label for="icon_prefix"></label>
+                        </div>
+                        <button class="btn waves-effect waves-light blue-violet accent-3" type="submit" name="action">Comment
+                            <i class="material-icons right"></i>
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+</html>

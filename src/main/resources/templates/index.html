@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facebook</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <title>Sign up</title>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper" style="background-color: blueviolet">
+        <div class="container">
+            <a href="#" class="brand-logo">Aba Facebook</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a th:href="@{/profile}" th:text="${user.firstName} + ' ' + ${user.lastName}" style="font-size: large"></a></li>
+                <li><a th:href="@{/auth/logout}" style="font-size: large">Logout</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<div class="container" style="margin-top: 5rem">
+    <h4 >Welcome To The Social Network</h4>
+    <hr />
+
+    <div class="row">
+        <form class="col s12" method="post" th:object="${newpost}" th:action="@{/post/new}">
+            <div class="row">
+                <div class="input-field col s8">
+                    <textarea id="icon_prefix2" placeholder="Share your thoughts..." class="materialize-textarea" th:field="*{postContent}"></textarea>
+                    <label for="icon_prefix2"></label>
+                </div>
+                <button class="btn waves-effect waves-light blue-violet accent-3" type="submit" name="action">Post
+                    <i class="material-icons right"></i>
+                </button>
+
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <div th:each="post : ${posts}">
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card">
+                    <div class="card-content dark-text">
+                        <p><b th:text="${post.user.firstName + ' ' + post.user.lastName}"></b></p>
+                        <br>
+                        <p><b th:text="${post.postContent}"></b></p>
+                        <br>
+
+                    </div>
+                    <div class="card-action">
+                        <p th:text="${post.comments.size()} + ' Comments ' + ${post.likes.size()} + ' Likes'"></p>
+
+                        <form method="post" th:object="${newlike}" th:action="@{/like/{id}(id=${post.getPostId()})}">
+                            <button class="btn waves-effect blue-violet accent-3" type="submit" name="action">Like
+                                <i class="material-icons right"></i>
+                            </button>
+                        </form>
+
+
+                        <!--                        <a href="@{/like/{id}(id=${post.getPostId()})}">Like</a>-->
+                        <a th:href="@{/post/{id}(id=${post.getPostId()})}">View post</a>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col s1">
+                        </div>
+                        <form class="col s10" method="post" th:object="${newcomment}" th:action="@{/comment/new/{id}(id=${post.getPostId()})}">
+                            <div class="row">
+                                <div class="input-field col s8">
+                                    <textarea id="icon_prefix" placeholder="Comment..." class="materialize-textarea" th:field="*{commentText}"></textarea>
+                                    <label for="icon_prefix"></label>
+                                </div>
+                                <button class="btn waves-effect waves-light blue-violet accent-3" type="submit" name="action">Comment
+                                    <i class="material-icons right"></i>
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
