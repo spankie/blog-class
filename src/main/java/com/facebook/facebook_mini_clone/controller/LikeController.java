@@ -2,14 +2,17 @@ package com.facebook.facebook_mini_clone.controller;
 
 import com.facebook.facebook_mini_clone.model.Like;
 import com.facebook.facebook_mini_clone.model.User;
+import com.facebook.facebook_mini_clone.repo.LikeRepo;
 import com.facebook.facebook_mini_clone.service.LikeService;
 import com.facebook.facebook_mini_clone.service.PostService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.TransactionScoped;
 import javax.validation.Valid;
 
 @Controller
@@ -25,19 +28,17 @@ public class LikeController {
 
     //like post from home page
     @PostMapping("/{id}")
+    // @javax.transaction.Transactional
     public String likeIndex(@PathVariable("id") int id, HttpSession session, @Valid Like like) {
-        Object userObj = session.getAttribute("user");
-        if (userObj == null) return "redirect:/auth/login";
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/auth/login";
 
-        like.setPost(postService.getPostById(id));
-        like.setUser((User) userObj);
-        System.out.println(like);
+        var post = postService.getPostById(id);
+        like.setPost(post);
+        like.setUser(user);
 
-        if(likeService.getLike(like) != null) {
-            likeService.deleteLike(like);
-        } else {
-            likeService.addLike(like);
-        }
+        like = likeService.addLike(like);
+
         return "redirect:/";
     }
 

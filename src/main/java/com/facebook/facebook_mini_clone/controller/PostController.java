@@ -23,7 +23,6 @@ public class PostController {
     private CommentService commentService;
     private PostService postService;
 
-
     public PostController(CommentService commentService, PostService postService) {
         this.commentService = commentService;
         this.postService = postService;
@@ -36,20 +35,10 @@ public class PostController {
     public String newPostIndex(HttpSession session, @Valid Post post) {
         Object userObj = session.getAttribute("user");
         if (userObj == null) return "redirect:/auth/login";
+
         post.setUser((User) userObj);
         postService.addAPost(post);
         return "redirect:/";
-    }
-    /*
-    New post from profile page
-     */
-    @PostMapping("/profile/new")
-    public String newPostProfile(HttpSession session, @Valid Post post) {
-        Object userObj = session.getAttribute("user");
-        if (userObj == null) return "redirect:/auth/login";
-        post.setUser((User) userObj);
-        postService.addAPost(post);
-        return "redirect:/profile";
     }
 
     //edit post
@@ -79,6 +68,7 @@ public class PostController {
     public String viewPost(@PathVariable("id") long id, HttpSession session, Model model) {
         Object userObj = session.getAttribute("user");
         if (userObj == null) return "redirect:/auth/login";
+        
         Post post = postService.getPostById(id);
 
         model.addAttribute("user", (User) userObj);

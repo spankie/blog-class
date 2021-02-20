@@ -18,8 +18,8 @@ public class Like {
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     private Post post;
 
-    @ManyToOne
-    private Comment comment;
+    // @ManyToOne
+    // private Comment comment;
 
     @ManyToOne
     private User user;

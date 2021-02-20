@@ -23,6 +23,12 @@
 
 <div class="container" style="margin-top: 7rem">
     <h3>Login</h3>
+    <h3>List of logged in people</h3>
+    <ul th:each="user : ${users}">
+        <li th:text="${user.email}"></li>
+    </ul>
+
+    
     <div th:if="${invalid != null}">
         <p style="color: tomato" th:text="${invalid}"></p>
     </div>

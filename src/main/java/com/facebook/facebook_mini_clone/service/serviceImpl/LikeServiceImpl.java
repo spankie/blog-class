@@ -25,7 +25,14 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public Like addLike(Like like) {
-        return likeRepo.save(like);
+        // check if this user has liked this post beofre...
+        var oldLike = likeRepo.findByUserAndPost(like.getUser(), like.getPost());
+        if (oldLike != null) {
+            deleteLike(oldLike);
+        } else {
+            like = likeRepo.save(like);
+        }
+        return like;
     }
 
     @Override
